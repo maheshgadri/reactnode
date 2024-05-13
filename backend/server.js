@@ -35,20 +35,20 @@ app.post('/signup', (req, res) => {
     });
 });
 
-//Login api called
 app.post('/login', (req, res) => {
+    const sql = "SELECT * FROM users WHERE `email` = ? AND `password`= ?";
    
-    const sql = "SELECT * FROM users WHERE 'email'= ? AND 'password' = ? ";
-    const values = ;
-    db.query(sql, [req.body.email,req.body.password], (err, result) => {
+    db.query(sql, [req.body.email, req.body.password], (err, result) => {
         if (err) {
-            return res.json("Error");
+            console.error('Error executing SQL query:', err);
+            return res.status(500).json({ message: 'Internal Server Error' });
         }
-  if (data.length>0){
-        return res.json("Success");
-  }
-  else{
-    return res.json("Failed"); 
+        
+        if (result.length > 0) {
+            const user = result[0]; // Assuming the first row contains the user's data
+            return res.status(200).json({ message: 'Success', name: user.name }); // Include the user's name in the response
+        } else {
+            return res.status(401).json({ message: 'Failed' });
   } 
     });
 });
