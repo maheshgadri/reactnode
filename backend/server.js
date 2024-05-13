@@ -37,7 +37,7 @@ app.post('/signup', (req, res) => {
 
 app.post('/login', (req, res) => {
     const sql = "SELECT * FROM users WHERE `email` = ? AND `password`= ?";
-   
+    
     db.query(sql, [req.body.email, req.body.password], (err, result) => {
         if (err) {
             console.error('Error executing SQL query:', err);
@@ -49,7 +49,7 @@ app.post('/login', (req, res) => {
             return res.status(200).json({ message: 'Success', name: user.name }); // Include the user's name in the response
         } else {
             return res.status(401).json({ message: 'Failed' });
-  } 
+        }
     });
 });
 
